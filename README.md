@@ -1,0 +1,2 @@
+# sablonu_kiberdrosibas_risinajums
+Bakalaura darba automatizētais kiberdrošības šablonu aizsardzības risinājums.
