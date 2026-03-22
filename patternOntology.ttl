@@ -1,0 +1,100 @@
+@prefix : <http://example.org/security#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+#ttl grafiskais attelojums
+#kas ontologijai ir jaspej attelot
+#tabula, kas apraksta klases
+#python wrapper
+#kapec kods vajadzigs, kapec tads un ko tas paveic
+#sparql
+#bash
+
+# Classes
+:Pattern a owl:Class .
+
+:AttackDetection a owl:Class ;
+    rdfs:subClassOf :Pattern .
+
+:AttackPrevention a owl:Class ;
+    rdfs:subClassOf :Pattern .
+
+
+
+# Provide attributes for AttackDetection
+:name rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackDetection ;
+    rdfs:range xsd:string .
+
+:attackType rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackDetection ;
+    rdfs:range xsd:string .
+
+:attackCharecharistics rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackDetection ;
+    rdfs:range xsd:string .
+
+:impactedSystem rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackDetection ;
+    rdfs:range xsd:string .
+
+
+
+# Provide attributes for AttackPrevention
+:name rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+:problem rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+:goal rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+:impactedSystem rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+:limitations rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+:steps rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+:commands rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
+
+
+# Defining instances
+:endPointDenialOfService a :AttackDetection ;
+    :name "Pakalpojumatteices uzbrukums" ; #sarunvaloda
+    :attackType "Sistēmas ietekmes" ; #sarunvaloda
+    :attackCharacteristics "" ; # aparaksts par sistemas uzbrukuma darbibu
+    :impactedSystem "". # ipv4 adrese
+
+:inboundTrafficFiltering a :AttackPrevention ;
+    :name "Ienākošās datplūsmas filtrēšana" ; #sarunvaloda
+    :problem "Pakalpojumatteice," ; #sarunvaloda
+    :goal "Filtrēt ienākošo datplūsmu pēc adresēm, kur izolē sistēmu no ļaunprātīgās datplūsmas izcelsmes adreses." ; #sarunvaloda
+    :impactedSystem "" ; # ipv4 adrese
+    :limitations "" ; #
+    :steps "" ; #aprakstiti soli
+    :commands "" . #koda aprakstiti soli
+
+
+
+#Properties
+:PreventedBy rdf:type owl:ObjectProperty .
+
+
+
+# Definition
+:endPointDenialOfService :PreventedBy :inboundTrafficFiltering .
