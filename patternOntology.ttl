@@ -4,15 +4,9 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-#ttl grafiskais attelojums
-#kas ontologijai ir jaspej attelot
-#tabula, kas apraksta klases
-#python wrapper
-#kapec kods vajadzigs, kapec tads un ko tas paveic
-#sparql
-#bash
 
-# Classes
+
+# Klases
 :Pattern a owl:Class .
 
 :AttackDetection a owl:Class ;
@@ -23,7 +17,7 @@
 
 
 
-# Provide attributes for AttackDetection
+# Atribūtu piešķiršana AttackDetection klasei
 :name rdf:type owl:DatatypeProperty ;
     rdfs:domain :AttackDetection ;
     rdfs:range xsd:string .
@@ -42,7 +36,7 @@
 
 
 
-# Provide attributes for AttackPrevention
+# Atribūtu piesķiršana AttackPrevention klasei
 :name rdf:type owl:DatatypeProperty ;
     rdfs:domain :AttackPrevention ;
     rdfs:range xsd:string .
@@ -73,28 +67,64 @@
 
 
 
-# Defining instances
+# DOS šablonu instanču izveidošana
 :endPointDenialOfService a :AttackDetection ;
     :name "Pakalpojumatteices uzbrukums" ; #sarunvaloda
     :attackType "Sistēmas ietekmes" ; #sarunvaloda
-    :attackCharacteristics "" ; # aparaksts par sistemas uzbrukuma darbibu
-    :impactedSystem "". # ipv4 adrese
+    :attackCharacteristics "Tiek veikta nepārtraukta pieprasījumu izsūtīšana, kas patērē servera resursus, palēlinot vai apturot tā darbību." ; # aparaksts par sistemas uzbrukuma darbibu
+    :impactedSystem "Pieprasījuma apstrāde". # ipv4 adrese
 
 :inboundTrafficFiltering a :AttackPrevention ;
     :name "Ienākošās datplūsmas filtrēšana" ; #sarunvaloda
-    :problem "Pakalpojumatteice," ; #sarunvaloda
+    :problem "Pakalpojumatteices uzbrukums" ; #sarunvaloda
     :goal "Filtrēt ienākošo datplūsmu pēc adresēm, kur izolē sistēmu no ļaunprātīgās datplūsmas izcelsmes adreses." ; #sarunvaloda
-    :impactedSystem "" ; # ipv4 adrese
-    :limitations "" ; #
-    :steps "" ; #aprakstiti soli
-    :commands "" . #koda aprakstiti soli
+    :impactedSystem "Pieprasījuma apstrāde" ; # ipv4 adrese
+    :limitations "Nav efektīvs, ja uzbrukums tiek veikts no dažādām ip adresēm vienlaikus." ; #
+    :steps "Ar bash kommandu aizliedz sistēmai pieņemt jebkādus pieprasījumus no konkrētās ip adreses." ; #aprakstiti soli
+    :commands "ufw deny from <var> to any" . #koda aprakstiti soli
+
+# Datu manipulācijas šablonu instanču izveidošana
+:dataManipulation a :AttackDetection ;
+    :name "Datu manipulācija" ; #sarunvaloda
+    :attackType "Sistēmas ietekmes" ; #sarunvaloda
+    :attackCharacteristics "Tiek veikts mēģinājums neatļauti ievietot, izdzēst vai mainīt datus sistēmā." ; # aparaksts par sistemas uzbrukuma darbibu
+    :impactedSystem "Failu krātuve". # ipv4 adrese
+
+:restrictFilePremissions a :AttackPrevention ;
+    :name "Ierobežot tiesibas failu maiņai" ; #sarunvaloda VISIEM NEADMINIEM BLOKE MAPI
+    :problem "Datu manipulācija" ; #sarunvaloda
+    :goal "Novērst neautorizēti lietotāju spēju apstrādāt failus" ; #sarunvaloda
+    :impactedSystem "Failu krātuve" ; # ipv4 adrese
+    :limitations "Spēj vienlaicīgi ierobežot tikai 1 mapes piekluves un apstrādes tiesības" ; #
+    :steps "Aizliedz konkrētajai mapei veikt izmaiņas tiem lietotājiem, kam nav administratora tiesību" ; #aprakstiti soli
+    :commands "chmod 755 -R <var>" . #koda aprakstiti soli
+
+# Satura injekcijas šablonu instanču izveidošana
+:contentInjection a :AttackDetection ;
+    :name "Satura injekcija" ; #sarunvaloda
+    :attackType "Sākotnējās piekļuves" ; #sarunvaloda
+    :attackCharacteristics "Uzbrucēji meģina injecēt sistēmu ar ļaunprātīgu programmatūru." ; # aparaksts par sistemas uzbrukuma darbibu
+    :impactedSystem "Visa sitēma". # ipv4 adrese
+
+:restrictWebBasedContent a :AttackPrevention ;
+    :name "Tīmeklī balstīta satura ierobežošana" ; #sarunvaloda
+    :problem "Satura injekcija" ; #sarunvaloda
+    :goal "Neatļaut palaist vai ievietot izpildes failus, kas var ietekmēt sistēmu vai nepazīstamos failu tipus." ; #sarunvaloda
+    :impactedSystem "Visa sitēma" ; # ipv4 adrese
+    :limitations "Nevar atpazīt visus kaitīgos failu tipus." ; #
+    :steps "Aizliedz lietotājiem, kam nav administratora tiesību, izmantot wget rīku" ; #aprakstiti soli
+    :commands "chmod 750 /usr/bin/wget" . #koda aprakstiti soli
 
 
 
-#Properties
+# Novērsanas saistību īpašības nodefinēšana
 :PreventedBy rdf:type owl:ObjectProperty .
 
 
 
-# Definition
+# Sablonu sasvstarpējo saistību definēsana
 :endPointDenialOfService :PreventedBy :inboundTrafficFiltering .
+
+:dataManipulation :PreventedBy :restrictFilePremissions .
+
+:contentInjection :PreventedBy :restrictWebBasedContent .
