@@ -1,2 +1,2 @@
-# Šablonu kiberdroššbas risinājums
+# Šablonu kiberdrošības risinājums
 Lai demonstrētu kiberdrosības šablonu automatizētu pielietojumu, tika izveidota improvizēta sistema, kas lokālajā tīklā saņem un apstrādā Linux komandas no citas ierīces, izmantojot 5005 pieslēgvietu. Risinājumā ir pielietoti kiberuzbrukumu atklāšanas un kiberuzbrukuma novēršanas šabloni, kur kiberdrošības novēršanas šablonos ir aprakstītas Linux komandas, kas spēj izolēt sistēmu no atklātā kiberuzburkuma. Lai novērsana strādātu, tajā pašā mapē ir jābūt secret.py failam, kas padod sudo komandu izpildes paroli.
