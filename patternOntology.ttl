@@ -49,6 +49,10 @@
     rdfs:domain :AttackPrevention ;
     rdfs:range xsd:string .
 
+:operatingSystem rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AttackPrevention ;
+    rdfs:range xsd:string .
+
 :impactedSystem rdf:type owl:DatatypeProperty ;
     rdfs:domain :AttackPrevention ;
     rdfs:range xsd:string .
@@ -69,51 +73,54 @@
 
 # DOS šablonu instanču izveidošana
 :endPointDenialOfService a :AttackDetection ;
-    :name "Pakalpojumatteices uzbrukums" ; #sarunvaloda
-    :attackType "Sistēmas ietekmes" ; #sarunvaloda
-    :attackCharacteristics "Tiek veikta nepārtraukta pieprasījumu izsūtīšana, kas patērē servera resursus, palēlinot vai apturot tā darbību." ; # aparaksts par sistemas uzbrukuma darbibu
-    :impactedSystem "Pieprasījuma apstrāde". # ipv4 adrese
+    :name "Galapunkta pakalpojumatteices uzbrukums" ; # Nosaukums
+    :attackType "Sistēmas ietekmes" ; # Uzbrukuma veids
+    :attackCharacteristics "Tiek veikta nepārtraukta pieprasījumu izsūtīšana, kas patērē servera resursus, palēninot vai apturot tā darbību" ; # Uzbrukuma īpašības
+    :impactedSystem "Pieprasījuma apstrāde" . # Ietekmētā sistēmas daļa
 
 :inboundTrafficFiltering a :AttackPrevention ;
-    :name "Ienākošās datplūsmas filtrēšana" ; #sarunvaloda
-    :problem "Pakalpojumatteices uzbrukums" ; #sarunvaloda
-    :goal "Filtrēt ienākošo datplūsmu pēc adresēm, kur izolē sistēmu no ļaunprātīgās datplūsmas izcelsmes adreses." ; #sarunvaloda
-    :impactedSystem "Pieprasījuma apstrāde" ; # ipv4 adrese
-    :limitations "Nav efektīvs, ja uzbrukums tiek veikts no dažādām ip adresēm vienlaikus." ; #
-    :steps "Ar bash kommandu aizliedz sistēmai pieņemt jebkādus pieprasījumus no konkrētās ip adreses." ; #aprakstiti soli
-    :commands "ufw deny from <var> to any" . #koda aprakstiti soli
+    :name "Ienākošās datplūsmas filtrēšana" ;
+    :problem "Pakalpojumatteices uzbrukums" ;
+    :goal "Filtrēt ienākošo datplūsmu pēc adresēm, kur izolē sistēmu no ļaunprātīgās datplūsmas izcelsmes adreses" ;
+    :operatingSystem "Ubuntu" ;
+    :impactedSystem "Pieprasījuma apstrāde" ;
+    :limitations "Nav efektīvs, ja uzbrukums tiek veikts no dažādām IP adresēm vienlaikus. Komandas atribūtā ir nepiciešams norādīt IP adresi, no kuras tiek veikta uzbrukuma pakešu izsūtīšana." ;
+    :steps "Ar Bash komandu aizliedz sistēmai pieņemt jebkādus pieprasījumus no konkrētās IP adreses" ;
+    :commands "ufw deny from <var> to any" .
 
 # Datu manipulācijas šablonu instanču izveidošana
 :dataManipulation a :AttackDetection ;
-    :name "Datu manipulācija" ; #sarunvaloda
-    :attackType "Sistēmas ietekmes" ; #sarunvaloda
-    :attackCharacteristics "Tiek veikts mēģinājums neatļauti ievietot, izdzēst vai mainīt datus sistēmā." ; # aparaksts par sistemas uzbrukuma darbibu
-    :impactedSystem "Failu krātuve". # ipv4 adrese
+    :name "Datu manipulācija" ;
+    :attackType "Sistēmas ietekmes" ;
+    :attackCharacteristics "Tiek veikts mēģinājums neatļauti ievietot, izdzēst vai mainīt datus sistēmā" ;
+    :impactedSystem "Failu krātuve" .
 
 :restrictFilePremissions a :AttackPrevention ;
-    :name "Ierobežot tiesibas failu maiņai" ; #sarunvaloda VISIEM NEADMINIEM BLOKE MAPI
-    :problem "Datu manipulācija" ; #sarunvaloda
-    :goal "Novērst neautorizēti lietotāju spēju apstrādāt failus" ; #sarunvaloda
-    :impactedSystem "Failu krātuve" ; # ipv4 adrese
-    :limitations "Spēj vienlaicīgi ierobežot tikai 1 mapes piekluves un apstrādes tiesības" ; #
-    :steps "Aizliedz konkrētajai mapei veikt izmaiņas tiem lietotājiem, kam nav administratora tiesību" ; #aprakstiti soli
-    :commands "chmod 755 -R <var>" . #koda aprakstiti soli
+    :name "Failu un mapju tiesību ierobežošana" ;
+    :problem "Datu manipulācija" ;
+    :goal "Novērst neautorizēti lietotāju spēju apstrādāt failus" ;
+    :operatingSystem "Ubuntu" ;
+    :impactedSystem "Failu krātuve" ;
+    :limitations "Spēj vienlaicīgi ierobežot tikai 1 mapes piekļuves un apstrādes tiesības. Komandas atribūtā ir nepiciešams norādīt mapes adresi sistēmā, kurai jāierobežo tiesības" ;
+    :steps "Aizliedz konkrētajai mapei veikt izmaiņas tiem lietotājiem, kam nav administratora tiesību" ;
+    :commands "chmod 755 -R <var>" .
 
 # Satura injekcijas šablonu instanču izveidošana
 :contentInjection a :AttackDetection ;
-    :name "Satura injekcija" ; #sarunvaloda
-    :attackType "Sākotnējās piekļuves" ; #sarunvaloda
-    :attackCharacteristics "Uzbrucēji meģina injecēt sistēmu ar ļaunprātīgu programmatūru." ; # aparaksts par sistemas uzbrukuma darbibu
-    :impactedSystem "Visa sitēma". # ipv4 adrese
+    :name "Satura injekcija" ;
+    :attackType "Sākotnējās piekļuves" ;
+    :attackCharacteristics "Uzbrucēji mēģina injicēt sistēmu ar ļaunprātīgu programmatūru" ;
+    :impactedSystem "Visa sistēma" .
 
 :restrictWebBasedContent a :AttackPrevention ;
-    :name "Tīmeklī balstīta satura ierobežošana" ; #sarunvaloda
-    :problem "Satura injekcija" ; #sarunvaloda
-    :goal "Neatļaut palaist vai ievietot izpildes failus, kas var ietekmēt sistēmu vai nepazīstamos failu tipus." ; #sarunvaloda
-    :impactedSystem "Visa sitēma" ; # ipv4 adrese
-    :limitations "Nevar atpazīt visus kaitīgos failu tipus." ; #
-    :steps "Aizliedz lietotājiem, kam nav administratora tiesību, izmantot wget rīku" ; #aprakstiti soli
-    :commands "chmod 750 /usr/bin/wget" . #koda aprakstiti soli
+    :name "Tīmeklī balstīta satura ierobežošana" ;
+    :problem "Satura injekcija" ;
+    :goal "Neatļaut palaist vai ievietot izpildes failus, kas var ietekmēt sistēmu vai nepazīstamos failu tipus" ;
+    :operatingSystem "Ubuntu" ;
+    :impactedSystem "Visa sistēma" ;
+    :limitations "Nevar atpazīt visus kaitīgos failu tipus" ;
+    :steps "Aizliedz lietotājiem, kam nav administratora tiesību, izmantot Wget rīku" ;
+    :commands "chmod 750 /usr/bin/wget" .
 
 
 
