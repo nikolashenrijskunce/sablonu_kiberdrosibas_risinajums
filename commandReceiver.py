@@ -9,8 +9,6 @@ from subprocess import Popen, PIPE, run as subrun, call as subcall
 ipDict = {}
 
 # Ievāc informāciju par mapju saturu, lai novērotu izmaiņas
-# start_files = subrun("ls", shell=True, capture_output=True, text=True)
-# start_files = (start_files.stdout).split("\n")
 start_files_tmp = subrun("ls /tmp", shell=True, capture_output=True, text=True)
 start_files_tmp = (start_files_tmp.stdout).split("\n")
         
@@ -81,15 +79,8 @@ def manipulation_detect():
     try:
 
         # Ievāc informāciju par pašreizējo /tmp un koda faila mapes stāvokli
-        # current_files = subrun('ls', shell=True, capture_output=True, text=True)
-        # current_files = (current_files.stdout).split('\n')        
         current_files_tmp = subrun('ls /tmp', shell=True, capture_output=True, text=True)
         current_files_tmp = (current_files_tmp.stdout).split('\n')
-        
-        # # Pārbauda, vai esošā koda mape ir mainijusies
-        # if start_files != current_files:
-        #     print('Izmaiņas esošajā mapē')
-        #     defense_execute('', 'dataManipulation')
 
         # Pārbauda vai /tmp mape ir mainījusies
         if start_files_tmp != current_files_tmp:
