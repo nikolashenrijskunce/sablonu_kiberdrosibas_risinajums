@@ -84,7 +84,7 @@
     :goal "Filtrēt ienākošo datplūsmu pēc adresēm, kur izolē sistēmu no ļaunprātīgās datplūsmas izcelsmes adreses" ;
     :operatingSystem "Ubuntu" ;
     :impactedSystem "Pieprasījuma apstrāde" ;
-    :limitations "Nav efektīvs, ja uzbrukums tiek veikts no dažādām IP adresēm vienlaikus. Komandas atribūtā ir nepiciešams norādīt IP adresi, no kuras tiek veikta uzbrukuma pakešu izsūtīšana." ;
+    :limitations "Nav efektīvs, ja uzbrukums tiek veikts no dažādām IP adresēm vienlaikus. Komandas atribūtā ir nepieciešams norādīt IP adresi, no kuras tiek veikta uzbrukuma pakešu izsūtīšana." ;
     :steps "Ar Bash komandu aizliedz sistēmai pieņemt jebkādus pieprasījumus no konkrētās IP adreses" ;
     :commands "ufw deny from <var> to any" .
 
@@ -101,7 +101,7 @@
     :goal "Novērst neautorizēti lietotāju spēju apstrādāt failus" ;
     :operatingSystem "Ubuntu" ;
     :impactedSystem "Failu krātuve" ;
-    :limitations "Spēj vienlaicīgi ierobežot tikai 1 mapes piekļuves un apstrādes tiesības. Komandas atribūtā ir nepiciešams norādīt mapes adresi sistēmā, kurai jāierobežo tiesības" ;
+    :limitations "Spēj vienlaicīgi ierobežot tikai 1 mapes piekļuves un apstrādes tiesības. Komandas atribūtā ir nepieciešams norādīt mapes adresi sistēmā, kurai jāierobežo tiesības" ;
     :steps "Aizliedz konkrētajai mapei veikt izmaiņas tiem lietotājiem, kam nav administratora tiesību" ;
     :commands "chmod 755 -R <var>" .
 
